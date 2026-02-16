@@ -74,7 +74,7 @@ class _ResponsePanelState extends State<ResponsePanel> {
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.background,
       ),
       child: Row(
@@ -306,7 +306,7 @@ class _ResponsePanelState extends State<ResponsePanel> {
   Widget _buildCopyBar() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(top: BorderSide(color: AppColors.border)),
         color: AppColors.background,
       ),
@@ -381,7 +381,7 @@ class _CopyButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.copy_rounded,
+              Icon(Icons.copy_rounded,
                   size: 12, color: AppColors.textTertiary),
               const SizedBox(width: 4),
               Text(

@@ -130,7 +130,7 @@ class _BodyEditorState extends State<BodyEditor> {
                   Container(
                     width: 40,
                     padding: const EdgeInsets.only(top: 16, right: 8),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       border: Border(
                         right: BorderSide(color: AppColors.border),
                       ),

@@ -200,13 +200,13 @@ class _KeyValueEditorState extends State<KeyValueEditor> {
                     width: 28,
                     height: 28,
                     child: isLastRow && !hasContent
-                        ? const Icon(Icons.add_circle_outline,
+                        ? Icon(Icons.add_circle_outline,
                             size: 16, color: AppColors.textTertiary)
                         : Checkbox(
                             value: row.enabled,
                             onChanged: (_) => _toggleRow(index),
                             activeColor: AppColors.primary,
-                            side: const BorderSide(color: AppColors.borderLight),
+                            side: BorderSide(color: AppColors.borderLight),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4),
                             ),
@@ -299,11 +299,11 @@ class _CompactField extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),

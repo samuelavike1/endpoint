@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/data/history_service.dart';
 import '../../home/providers/request_provider.dart';
+import '../../home/providers/workspace_provider.dart';
 
 class HistoryView extends ConsumerStatefulWidget {
   final VoidCallback? onItemTapped;
@@ -109,17 +110,17 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
             fontSize: 14,
             color: AppColors.textTertiary.withValues(alpha: 0.5),
           ),
-          prefixIcon: const Icon(Icons.search_rounded,
+          prefixIcon: Icon(Icons.search_rounded,
               color: AppColors.textTertiary, size: 20),
           filled: true,
           fillColor: AppColors.surface,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.border),
+            borderSide: BorderSide(color: AppColors.border),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.border),
+            borderSide: BorderSide(color: AppColors.border),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
@@ -143,7 +144,7 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
               shape: BoxShape.circle,
               border: Border.all(color: AppColors.border),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.history_rounded,
               size: 40,
               color: AppColors.textTertiary,
@@ -230,7 +231,7 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
                     item: item,
                     onTap: () {
                       ref
-                          .read(requestProvider.notifier)
+                          .read(workspaceProvider.notifier)
                           .loadFromHistory(item);
                       widget.onItemTapped?.call();
                     },
@@ -333,7 +334,7 @@ class _HistoryCard extends StatelessWidget {
           color: AppColors.error.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(14),
         ),
-        child: const Icon(Icons.delete_outline, color: AppColors.error),
+        child: Icon(Icons.delete_outline, color: AppColors.error),
       ),
       onDismissed: (_) => onDelete(),
       child: GestureDetector(
@@ -435,7 +436,7 @@ class _HistoryCard extends StatelessWidget {
               ),
 
               // Arrow icon
-              const Icon(
+              Icon(
                 Icons.chevron_right_rounded,
                 color: AppColors.textTertiary,
                 size: 18,
