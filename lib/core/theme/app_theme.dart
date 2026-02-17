@@ -19,15 +19,16 @@ class AppColors {
 
   // ── Accent ──
   // ── Accent ──
+  // ── Accent ──
   static Color get primary => isDark
-      ? const Color(0xFF6366F1)
-      : const Color(0xFF4338CA); // Vivid Indigo / Deep Indigo
+      ? const Color(0xFFF97316)
+      : const Color(0xFFEA580C); // Vivid Orange / Deep Orange
   static Color get primaryLight =>
-      isDark ? const Color(0xFF818CF8) : const Color(0xFF6366F1);
+      isDark ? const Color(0xFFFB923C) : const Color(0xFFF97316);
   static Color get primaryDark =>
-      isDark ? const Color(0xFF4F46E5) : const Color(0xFF3730A3);
+      isDark ? const Color(0xFFEA580C) : const Color(0xFFC2410C);
   static Color get secondary =>
-      isDark ? const Color(0xFF818CF8) : const Color(0xFF3730A3);
+      isDark ? const Color(0xFFFB923C) : const Color(0xFFC2410C);
 
   // ── Method colors ──
   static Color get getColor => isDark
@@ -79,7 +80,7 @@ class AppColors {
 
   // ── Gradients ──
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFF4F46E5), Color(0xFF6366F1)], // Deeper gradient
+    colors: [Color(0xFFF97316), Color(0xFFEA580C)], // Orange Gradient
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -91,7 +92,7 @@ class AppColors {
   );
 
   static const LinearGradient sendButtonGradient = LinearGradient(
-    colors: [Color(0xFF4F46E5), Color(0xFF4338CA)],
+    colors: [Color(0xFFF97316), Color(0xFFEA580C)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );

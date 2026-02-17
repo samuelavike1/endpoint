@@ -217,8 +217,8 @@ class _BodyEditorState extends State<BodyEditor> {
                         ),
                         const SizedBox(width: 8),
                         _ShortcutButton(
-                          label: '" : "',
-                          onTap: () => _insertText('" : "'),
+                          label: ' : ',
+                          onTap: () => _insertText(' : '),
                         ),
                       ],
                     ),
