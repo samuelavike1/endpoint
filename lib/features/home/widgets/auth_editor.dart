@@ -7,11 +7,7 @@ class AuthEditor extends StatefulWidget {
   final AuthConfig auth;
   final ValueChanged<AuthConfig> onChanged;
 
-  const AuthEditor({
-    super.key,
-    required this.auth,
-    required this.onChanged,
-  });
+  const AuthEditor({super.key, required this.auth, required this.onChanged});
 
   @override
   State<AuthEditor> createState() => _AuthEditorState();
@@ -31,8 +27,9 @@ class _AuthEditorState extends State<AuthEditor> {
     _usernameController = TextEditingController(text: widget.auth.username);
     _passwordController = TextEditingController(text: widget.auth.password);
     _apiKeyNameController = TextEditingController(text: widget.auth.apiKeyName);
-    _apiKeyValueController =
-        TextEditingController(text: widget.auth.apiKeyValue);
+    _apiKeyValueController = TextEditingController(
+      text: widget.auth.apiKeyValue,
+    );
   }
 
   @override
@@ -116,8 +113,7 @@ class _AuthEditorState extends State<AuthEditor> {
                     label,
                     style: GoogleFonts.inter(
                       fontSize: 12,
-                      fontWeight:
-                          isActive ? FontWeight.w600 : FontWeight.w400,
+                      fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
                       color: isActive
                           ? AppColors.primary
                           : AppColors.textTertiary,
@@ -259,8 +255,7 @@ class _AuthEditorState extends State<AuthEditor> {
           _buildTextField(
             controller: _apiKeyValueController,
             hint: 'Enter API key value...',
-            onChanged: (v) =>
-                _updateAuth((a) => a.copyWith(apiKeyValue: v)),
+            onChanged: (v) => _updateAuth((a) => a.copyWith(apiKeyValue: v)),
           ),
           const SizedBox(height: 12),
           _buildLabel('Add to'),
@@ -371,10 +366,12 @@ class _AuthEditorState extends State<AuthEditor> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+          borderSide: BorderSide(color: AppColors.primary, width: 1.5),
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 12,
+        ),
       ),
     );
   }

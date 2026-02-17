@@ -25,10 +25,16 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
     final filteredItems = _searchQuery.isEmpty
         ? historyState.items
         : historyState.items
-            .where((item) =>
-                item.url.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                item.method.toLowerCase().contains(_searchQuery.toLowerCase()))
-            .toList();
+              .where(
+                (item) =>
+                    item.url.toLowerCase().contains(
+                      _searchQuery.toLowerCase(),
+                    ) ||
+                    item.method.toLowerCase().contains(
+                      _searchQuery.toLowerCase(),
+                    ),
+              )
+              .toList();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -46,11 +52,14 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
             // History list
             Expanded(
               child: historyState.isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(color: AppColors.primary))
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      ),
+                    )
                   : filteredItems.isEmpty
-                      ? _buildEmptyState()
-                      : _buildHistoryList(filteredItems),
+                  ? _buildEmptyState()
+                  : _buildHistoryList(filteredItems),
             ),
           ],
         ),
@@ -110,8 +119,11 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
             fontSize: 14,
             color: AppColors.textTertiary.withValues(alpha: 0.5),
           ),
-          prefixIcon: Icon(Icons.search_rounded,
-              color: AppColors.textTertiary, size: 20),
+          prefixIcon: Icon(
+            Icons.search_rounded,
+            color: AppColors.textTertiary,
+            size: 20,
+          ),
           filled: true,
           fillColor: AppColors.surface,
           border: OutlineInputBorder(
@@ -124,9 +136,12 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.primary, width: 1),
+            borderSide: BorderSide(color: AppColors.primary, width: 1),
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
         ),
       ),
     );
@@ -236,9 +251,7 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
                       widget.onItemTapped?.call();
                     },
                     onDelete: () {
-                      ref
-                          .read(historyProvider.notifier)
-                          .deleteItem(item.id);
+                      ref.read(historyProvider.notifier).deleteItem(item.id);
                     },
                   ),
                 );
@@ -259,26 +272,34 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
         title: Text(
           'Clear History',
           style: GoogleFonts.inter(
-              fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
         ),
         content: Text(
           'This will delete all request history. This action cannot be undone.',
           style: GoogleFonts.inter(
-              fontSize: 14, color: AppColors.textSecondary),
+            fontSize: 14,
+            color: AppColors.textSecondary,
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancel',
-                style: GoogleFonts.inter(color: AppColors.textTertiary)),
+            child: Text(
+              'Cancel',
+              style: GoogleFonts.inter(color: AppColors.textTertiary),
+            ),
           ),
           TextButton(
             onPressed: () {
               ref.read(historyProvider.notifier).clearAll();
               Navigator.pop(context);
             },
-            child: Text('Clear',
-                style: GoogleFonts.inter(color: AppColors.error)),
+            child: Text(
+              'Clear',
+              style: GoogleFonts.inter(color: AppColors.error),
+            ),
           ),
         ],
       ),
@@ -294,8 +315,18 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
     if (dateDay == today.subtract(const Duration(days: 1))) return 'Yesterday';
 
     final months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
   }
@@ -318,10 +349,10 @@ class _HistoryCard extends StatelessWidget {
     final statusColor = item.statusCode == 0
         ? AppColors.error
         : item.isSuccess
-            ? AppColors.success
-            : item.statusCode >= 400
-                ? AppColors.error
-                : AppColors.warning;
+        ? AppColors.success
+        : item.statusCode >= 400
+        ? AppColors.error
+        : AppColors.warning;
 
     return Dismissible(
       key: Key(item.id),
@@ -409,8 +440,11 @@ class _HistoryCard extends StatelessWidget {
                         const SizedBox(width: 12),
 
                         // Duration
-                        Icon(Icons.timer_outlined,
-                            size: 10, color: AppColors.textTertiary),
+                        Icon(
+                          Icons.timer_outlined,
+                          size: 10,
+                          color: AppColors.textTertiary,
+                        ),
                         const SizedBox(width: 2),
                         Text(
                           '${item.durationMs}ms',

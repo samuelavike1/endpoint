@@ -18,25 +18,45 @@ class AppColors {
   static Color get card => isDark ? const Color(0xFF162032) : Colors.white;
 
   // ── Accent ──
-  static const Color primary = Color(0xFF4F46E5); // Indigo 600 (Vivid)
-  static const Color primaryLight = Color(0xFF6366F1); // Indigo 500
-  static const Color primaryDark = Color(0xFF4338CA); // Indigo 700
-  static const Color secondary = Color(0xFF3730A3); // Indigo 800
+  // ── Accent ──
+  static Color get primary => isDark
+      ? const Color(0xFF6366F1)
+      : const Color(0xFF4338CA); // Vivid Indigo / Deep Indigo
+  static Color get primaryLight =>
+      isDark ? const Color(0xFF818CF8) : const Color(0xFF6366F1);
+  static Color get primaryDark =>
+      isDark ? const Color(0xFF4F46E5) : const Color(0xFF3730A3);
+  static Color get secondary =>
+      isDark ? const Color(0xFF818CF8) : const Color(0xFF3730A3);
 
-  // ── Method colors (same for both themes) ──
-  static const Color getColor = Color(0xFF10B981); // Emerald 500 (More vivid)
-  static const Color postColor = Color(0xFFF59E0B); // Amber 500
-  static const Color putColor = Color(0xFF3B82F6); // Blue 500
-  static const Color deleteColor = Color(0xFFEF4444); // Red 500
-  static const Color patchColor = Color(0xFFA855F7); // Purple 500
-  static const Color headColor = Color(0xFF64748B); // Slate 500
-  static const Color optionsColor = Color(0xFFEC4899); // Pink 500
+  // ── Method colors ──
+  static Color get getColor => isDark
+      ? const Color(0xFF34D399)
+      : const Color(0xFF059669); // Emerald 400 / 600
+  static Color get postColor => isDark
+      ? const Color(0xFFFBBF24)
+      : const Color(0xFFD97706); // Amber 400 / 600
+  static Color get putColor => isDark
+      ? const Color(0xFF60A5FA)
+      : const Color(0xFF2563EB); // Blue 400 / 600
+  static Color get deleteColor => isDark
+      ? const Color(0xFFF87171)
+      : const Color(0xFFDC2626); // Red 400 / 600
+  static Color get patchColor => isDark
+      ? const Color(0xFFA78BFA)
+      : const Color(0xFF7C3AED); // Violet 400 / 600
+  static Color get headColor => isDark
+      ? const Color(0xFF94A3B8)
+      : const Color(0xFF475569); // Slate 400 / 600
+  static Color get optionsColor => isDark
+      ? const Color(0xFFF472B6)
+      : const Color(0xFFDB2777); // Pink 400 / 600
 
   // ── Status ──
-  static const Color success = Color(0xFF10B981);
-  static const Color warning = Color(0xFFF59E0B);
-  static const Color error = Color(0xFFEF4444);
-  static const Color info = Color(0xFF3B82F6);
+  static Color get success => getColor;
+  static Color get warning => postColor;
+  static Color get error => deleteColor;
+  static Color get info => putColor;
 
   // ── Text ──
   static Color get textPrimary => isDark
@@ -114,19 +134,19 @@ class AppTheme {
           ? const Color(0xFF0A0E17)
           : const Color(0xFFF5F7FA),
       colorScheme: isDark
-          ? const ColorScheme.dark(
+          ? ColorScheme.dark(
               primary: AppColors.primary,
               secondary: AppColors.secondary,
-              surface: Color(0xFF131924),
-              onSurface: Color(0xFFF1F5F9),
-              outline: Color(0xFF1E293B),
+              surface: const Color(0xFF131924),
+              onSurface: const Color(0xFFF1F5F9),
+              outline: const Color(0xFF1E293B),
             )
-          : const ColorScheme.light(
+          : ColorScheme.light(
               primary: AppColors.primary,
               secondary: AppColors.secondary,
               surface: Colors.white,
-              onSurface: Color(0xFF1A1A2E),
-              outline: Color(0xFFE2E8F0),
+              onSurface: const Color(0xFF1A1A2E),
+              outline: const Color(0xFFE2E8F0),
             ),
       textTheme:
           GoogleFonts.interTextTheme(
@@ -217,7 +237,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+          borderSide: BorderSide(color: AppColors.primary, width: 1.5),
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,

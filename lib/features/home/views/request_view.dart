@@ -186,18 +186,6 @@ class _RequestViewState extends ConsumerState<RequestView>
               }
             },
           ),
-
-          const SizedBox(width: 6),
-
-          // New request button
-          if (hasResponse)
-            _HeaderAction(
-              icon: Icons.add_rounded,
-              onTap: () {
-                setState(() => _responseExpanded = false);
-                notifier.clearResponse();
-              },
-            ),
         ],
       ),
     );
@@ -416,13 +404,13 @@ class _RequestViewState extends ConsumerState<RequestView>
     );
   }
 
-  static const _colorPalette = [
-    Color(0xFF6C63FF),
-    Color(0xFF4FC3F7),
-    Color(0xFF66BB6A),
-    Color(0xFFFFB74D),
-    Color(0xFFEF5350),
-    Color(0xFFAB47BC),
+  static final _colorPalette = [
+    Color(0xFF818CF8), // Indigo 400
+    Color(0xFF38BDF8), // Sky 400
+    Color(0xFF4ADE80), // Green 400
+    Color(0xFFFBBF24), // Amber 400
+    Color(0xFFF87171), // Red 400
+    Color(0xFFA78BFA), // Violet 400
   ];
 
   void _showSaveToCollectionDialog(RequestState requestState) {
@@ -615,10 +603,7 @@ class _RequestViewState extends ConsumerState<RequestView>
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: AppColors.primary,
-                    width: 1.5,
-                  ),
+                  borderSide: BorderSide(color: AppColors.primary, width: 1.5),
                 ),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 14,
@@ -662,10 +647,7 @@ class _RequestViewState extends ConsumerState<RequestView>
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: AppColors.primary,
-                    width: 1.5,
-                  ),
+                  borderSide: BorderSide(color: AppColors.primary, width: 1.5),
                 ),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 14,
@@ -838,7 +820,7 @@ class _RequestViewState extends ConsumerState<RequestView>
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
+                    borderSide: BorderSide(
                       color: AppColors.primary,
                       width: 1.5,
                     ),

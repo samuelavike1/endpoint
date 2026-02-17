@@ -32,17 +32,21 @@ class _KeyValueEditorState extends State<KeyValueEditor> {
     _rows = [];
     if (widget.initialPairs.isNotEmpty) {
       for (final pair in widget.initialPairs) {
-        _rows.add(_EditorRow(
-          keyController: TextEditingController(text: pair.key),
-          valueController: TextEditingController(text: pair.value),
-          enabled: pair.enabled,
-        ));
+        _rows.add(
+          _EditorRow(
+            keyController: TextEditingController(text: pair.key),
+            valueController: TextEditingController(text: pair.value),
+            enabled: pair.enabled,
+          ),
+        );
       }
     }
-    _rows.add(_EditorRow(
-      keyController: TextEditingController(),
-      valueController: TextEditingController(),
-    ));
+    _rows.add(
+      _EditorRow(
+        keyController: TextEditingController(),
+        valueController: TextEditingController(),
+      ),
+    );
   }
 
   @override
@@ -59,22 +63,27 @@ class _KeyValueEditorState extends State<KeyValueEditor> {
     if (lastRow.keyController.text.isNotEmpty ||
         lastRow.valueController.text.isNotEmpty) {
       setState(() {
-        _rows.add(_EditorRow(
-          keyController: TextEditingController(),
-          valueController: TextEditingController(),
-        ));
+        _rows.add(
+          _EditorRow(
+            keyController: TextEditingController(),
+            valueController: TextEditingController(),
+          ),
+        );
       });
     }
 
     // Emit changes
     final pairs = <KeyValuePair>[];
     for (final row in _rows) {
-      if (row.keyController.text.isNotEmpty || row.valueController.text.isNotEmpty) {
-        pairs.add(KeyValuePair(
-          key: row.keyController.text,
-          value: row.valueController.text,
-          enabled: row.enabled,
-        ));
+      if (row.keyController.text.isNotEmpty ||
+          row.valueController.text.isNotEmpty) {
+        pairs.add(
+          KeyValuePair(
+            key: row.keyController.text,
+            value: row.valueController.text,
+            enabled: row.enabled,
+          ),
+        );
       }
     }
     widget.onChanged(pairs);
@@ -189,7 +198,8 @@ class _KeyValueEditorState extends State<KeyValueEditor> {
             final row = _rows[index];
             final isLastRow = index == _rows.length - 1;
             final hasContent =
-                row.keyController.text.isNotEmpty || row.valueController.text.isNotEmpty;
+                row.keyController.text.isNotEmpty ||
+                row.valueController.text.isNotEmpty;
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
@@ -200,8 +210,11 @@ class _KeyValueEditorState extends State<KeyValueEditor> {
                     width: 28,
                     height: 28,
                     child: isLastRow && !hasContent
-                        ? Icon(Icons.add_circle_outline,
-                            size: 16, color: AppColors.textTertiary)
+                        ? Icon(
+                            Icons.add_circle_outline,
+                            size: 16,
+                            color: AppColors.textTertiary,
+                          )
                         : Checkbox(
                             value: row.enabled,
                             onChanged: (_) => _toggleRow(index),
@@ -210,7 +223,8 @@ class _KeyValueEditorState extends State<KeyValueEditor> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4),
                             ),
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
                             visualDensity: VisualDensity.compact,
                           ),
                   ),
@@ -294,9 +308,14 @@ class _CompactField extends StatelessWidget {
           color: AppColors.textTertiary.withValues(alpha: 0.5),
         ),
         filled: true,
-        fillColor: enabled ? AppColors.surface : AppColors.surface.withValues(alpha: 0.5),
+        fillColor: enabled
+            ? AppColors.surface
+            : AppColors.surface.withValues(alpha: 0.5),
         isDense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 10,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: AppColors.border),
@@ -307,11 +326,13 @@ class _CompactField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1),
+          borderSide: BorderSide(color: AppColors.primary, width: 1),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: AppColors.border.withValues(alpha: 0.5)),
+          borderSide: BorderSide(
+            color: AppColors.border.withValues(alpha: 0.5),
+          ),
         ),
       ),
     );
