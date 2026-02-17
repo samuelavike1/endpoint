@@ -54,8 +54,6 @@ class _BodyEditorState extends State<BodyEditor> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -123,64 +121,105 @@ class _BodyEditorState extends State<BodyEditor> {
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: AppColors.border),
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Stack(
                 children: [
-                  // Line numbers gutter
-                  Container(
-                    width: 40,
-                    padding: const EdgeInsets.only(top: 16, right: 8),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        right: BorderSide(color: AppColors.border),
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: List.generate(
-                        _lineCount,
-                        (i) => Text(
-                          '${i + 1}',
-                          style: GoogleFonts.jetBrainsMono(
-                            fontSize: 12,
-                            height: 1.6,
-                            color: AppColors.textTertiary.withValues(alpha: 0.5),
+                  Positioned.fill(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 40),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Line numbers gutter
+                          Container(
+                            width: 40,
+                            padding: const EdgeInsets.only(top: 16, right: 8),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                right: BorderSide(color: AppColors.border),
+                              ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: List.generate(
+                                _lineCount,
+                                (i) => Text(
+                                  '${i + 1}',
+                                  style: GoogleFonts.jetBrainsMono(
+                                    fontSize: 12,
+                                    height: 1.6,
+                                    color: AppColors.textTertiary.withValues(
+                                      alpha: 0.5,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+
+                          // Text editor
+                          Expanded(
+                            child: TextField(
+                              controller: widget.controller,
+                              focusNode: _focusNode,
+                              onChanged: widget.onChanged,
+                              maxLines: null,
+                              expands: true,
+                              style: GoogleFonts.jetBrainsMono(
+                                fontSize: 12,
+                                color: AppColors.textPrimary,
+                                height: 1.6,
+                              ),
+                              decoration: InputDecoration(
+                                hintText: '{\n  "key": "value"\n}',
+                                hintStyle: GoogleFonts.jetBrainsMono(
+                                  fontSize: 12,
+                                  color: AppColors.textTertiary.withValues(
+                                    alpha: 0.4,
+                                  ),
+                                  height: 1.6,
+                                ),
+                                filled: false,
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 16,
+                                ),
+                              ),
+                              textAlignVertical: TextAlignVertical.top,
+                              inputFormatters: [
+                                _BracketInputFormatter(),
+                                _IndentationInputFormatter(),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
 
-                  // Text editor
-                  Expanded(
-                    child: TextField(
-                      controller: widget.controller,
-                      focusNode: _focusNode,
-                      onChanged: widget.onChanged,
-                      maxLines: null,
-                      expands: true,
-                      style: GoogleFonts.jetBrainsMono(
-                        fontSize: 12,
-                        color: AppColors.textPrimary,
-                        height: 1.6,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: '{\n  "key": "value"\n}',
-                        hintStyle: GoogleFonts.jetBrainsMono(
-                          fontSize: 12,
-                          color: AppColors.textTertiary.withValues(alpha: 0.4),
-                          height: 1.6,
+                  // Floating Toolbar
+                  Positioned(
+                    bottom: 12,
+                    right: 12,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _ShortcutButton(
+                          label: '{}',
+                          onTap: () => _insertPair('{', '}'),
                         ),
-                        filled: false,
-                        border: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                      ),
-                      textAlignVertical: TextAlignVertical.top,
-                      inputFormatters: [
-                        _BracketInputFormatter(),
+                        const SizedBox(width: 8),
+                        _ShortcutButton(
+                          label: '[]',
+                          onTap: () => _insertPair('[', ']'),
+                        ),
+                        const SizedBox(width: 8),
+                        _ShortcutButton(
+                          label: '" : "',
+                          onTap: () => _insertText('" : "'),
+                        ),
                       ],
                     ),
                   ),
@@ -190,6 +229,32 @@ class _BodyEditorState extends State<BodyEditor> {
           ),
         ),
       ],
+    );
+  }
+
+  void _insertText(String text) {
+    final selection = widget.controller.selection;
+    final newText = widget.controller.text.replaceRange(
+      selection.start,
+      selection.end,
+      text,
+    );
+    widget.controller.value = TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: selection.start + text.length),
+    );
+  }
+
+  void _insertPair(String open, String close) {
+    final selection = widget.controller.selection;
+    final newText = widget.controller.text.replaceRange(
+      selection.start,
+      selection.end,
+      '$open$close',
+    );
+    widget.controller.value = TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: selection.start + open.length),
     );
   }
 }
@@ -230,13 +295,70 @@ class _BracketInputFormatter extends TextInputFormatter {
     }
 
     // Insert the closing character after cursor
-    final newText = newValue.text.substring(0, insertedIndex + 1) +
+    final newText =
+        newValue.text.substring(0, insertedIndex + 1) +
         closing +
         newValue.text.substring(insertedIndex + 1);
 
     return TextEditingValue(
       text: newText,
       selection: TextSelection.collapsed(offset: insertedIndex + 1),
+    );
+  }
+}
+
+/// Formatter that handles basic auto-indentation on new lines
+class _IndentationInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    // Only verify if a newline was added
+    if (newValue.text.length <= oldValue.text.length) return newValue;
+
+    // Check if the change is a newline insertion
+    final newCharIndex = newValue.selection.baseOffset - 1;
+    if (newCharIndex < 0 || newValue.text[newCharIndex] != '\n') {
+      return newValue;
+    }
+
+    // Get previous line
+    final beforeNewLine = newValue.text.substring(0, newCharIndex);
+    final lastLineIndex = beforeNewLine.lastIndexOf('\n') + 1;
+    final lastLine = beforeNewLine.substring(lastLineIndex);
+
+    // Calculate existing indentation
+    int spaces = 0;
+    for (int i = 0; i < lastLine.length; i++) {
+      if (lastLine[i] == ' ') {
+        spaces++;
+      } else {
+        break;
+      }
+    }
+
+    // Check if we should increase indentation (line ends with { or [)
+    final trimmedLine = lastLine.trimRight();
+    if (trimmedLine.isNotEmpty) {
+      final lastChar = trimmedLine[trimmedLine.length - 1];
+      if (lastChar == '{' || lastChar == '[') {
+        spaces += 2; // Increase indent
+      }
+    }
+
+    // Construct indentation string
+    final indent = ' ' * spaces;
+
+    // Apply indentation
+    final newText =
+        newValue.text.substring(0, newCharIndex + 1) +
+        indent +
+        newValue.text.substring(newCharIndex + 1);
+
+    return TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newCharIndex + 1 + spaces),
     );
   }
 }
@@ -264,7 +386,9 @@ class _ToolButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.primary.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+            border: Border.all(
+              color: AppColors.primary.withValues(alpha: 0.15),
+            ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -280,6 +404,48 @@ class _ToolButton extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ShortcutButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+
+  const _ShortcutButton({required this.label, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.surfaceElevated,
+      borderRadius: BorderRadius.circular(6),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(6),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(color: AppColors.border),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Text(
+            label,
+            style: GoogleFonts.jetBrainsMono(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+            ),
           ),
         ),
       ),

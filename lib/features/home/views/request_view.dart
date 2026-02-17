@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +12,7 @@ import '../widgets/key_value_editor.dart';
 import '../widgets/body_editor.dart';
 import '../widgets/auth_editor.dart';
 import '../widgets/response_panel.dart';
+import '../widgets/json_syntax_highlight.dart';
 import '../../collections/providers/collection_provider.dart';
 import '../../../core/data/collection_service.dart';
 
@@ -25,7 +27,7 @@ class _RequestViewState extends ConsumerState<RequestView>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController _urlController = TextEditingController();
-  final TextEditingController _bodyController = TextEditingController();
+  final JsonSyntaxTextController _bodyController = JsonSyntaxTextController();
   bool _responseExpanded = true;
   String? _lastSyncedTabId;
 
@@ -1003,7 +1005,16 @@ class _RequestViewState extends ConsumerState<RequestView>
         BodyEditor(
           controller: _bodyController,
           onChanged: notifier.updateBody,
-          onPrettify: notifier.prettifyBody,
+          onPrettify: () {
+            final text = _bodyController.text;
+            if (text.trim().isEmpty) return;
+            try {
+              final parsed = jsonDecode(text);
+              final pretty = const JsonEncoder.withIndent('  ').convert(parsed);
+              _bodyController.text = pretty;
+              notifier.updateBody(pretty);
+            } catch (_) {}
+          },
         ),
         SingleChildScrollView(
           child: KeyValueEditor(
